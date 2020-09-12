@@ -69,7 +69,7 @@ namespace BuildersCapital.DataProvider
                 }
                 if (!docStatusView.Appraisal)
                 {
-                    docStatusView.Appraisal = true;
+                    //docStatusView.Appraisal = true;
                     documents.Add(CreateDocType(inputFilePath, outputFilePath, docStatusView.PropertyId, DocType.Appraisal.ToString()));
                 }
                 if (!docStatusView.SiteMap)

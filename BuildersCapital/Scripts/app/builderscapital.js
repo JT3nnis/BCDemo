@@ -61,15 +61,37 @@ AppWeb.BuildersCapital = function () {
         },
 
         download = function (id) {
-            var foundDocument = _docData.find(x => x.Id === id);
+            var foundDocument = _docData.find(x => x.Id == id);
+
             var url = '/Document/Download?id=' + id;
             $.ajax({
                 type: 'POST',
                 url: url,
                 contentType: false, // Not to set any content header if FormData() is used
                 processData: false, // Not to process data if FormData() is used
-                success: function () {
-                    alert(`${foundDocument.DocType} for ${id} was dowloaded.`);
+                success: function (result) {
+                    if (result.error == 0) {
+                        var url = result.data;
+                        // create a html5 link tag to download the file by browser
+                        var link = document.createElement('a'); // Creating new link node.
+                        link.href = url;
+                        if (url !== undefined) {
+                            //Set HTML5 download attribute. This will prevent file from opening if supported.
+                            url = url.replace(/\\/g, '/');
+                            var fileName = url.substring(url.lastIndexOf('/') + 1, url.length);
+                            link.download = fileName;
+                        }
+
+                        //Dispatching click event.
+                        if (document.createEvent) {
+                            var e = document.createEvent('MouseEvents');
+                            e.initEvent('click', true, true);
+                            link.dispatchEvent(e);
+                            return true;
+                        }
+                    }
+                    else {
+                    }
                 },
                 error: function (jqXHR, status, errorThrown) {
                     alert('error');

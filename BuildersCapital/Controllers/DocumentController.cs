@@ -58,15 +58,18 @@ namespace BuildersCapital.Controllers
                 BuildersCapitalDataProvider BuildersCapitalDataProvider = new BuildersCapitalDataProvider();
                 Document foundDocument = BuildersCapitalDataProvider.RetrieveDocuments().ToList().Find(x => x.Id == new Guid(id));
                 ZipProvider ZipProvider = new ZipProvider();
-                //string path = Server.MapPath("~/App_Data");
+                string fileName = $"Output/{id}.zip";
+                string serverPath = Path.Combine(Server.MapPath("~/App_Data"), fileName);
+                string outputPath = Path.Combine("App_Data", fileName);
+                string downloadPath = Path.Combine(Request.Url.Scheme + "://" + Request.Url.Authority, outputPath);
                 //string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-                string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads/" + id + ".zip");
-                ZipProvider.WriteByteArrayToFile(path, foundDocument.DocBlob);
-
+                //string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads/" + id + ".zip");
+                ZipProvider.WriteByteArrayToFile(serverPath, foundDocument.DocBlob);
+                
                 var result = new
                 {
                     error = 0,
-                    data = path,
+                    data = downloadPath,
                     message = ""
                 };
                 return Json(result, JsonRequestBehavior.AllowGet);
