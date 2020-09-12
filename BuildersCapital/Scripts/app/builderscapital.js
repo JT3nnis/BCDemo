@@ -44,6 +44,7 @@ AppWeb.BuildersCapital = function () {
                 processData: false, // Not to process data if FormData() is used
                 data: formData,
                 success: function (result) {
+
                 },
                 error: function (jqXHR, status, errorThrown) {
                 }

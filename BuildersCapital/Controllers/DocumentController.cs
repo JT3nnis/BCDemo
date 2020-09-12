@@ -15,8 +15,6 @@ namespace BuildersCapital.Controllers
     {
         public ActionResult Index()
         {
-            string name = "123456789";
-            
             return View();
         }
 
@@ -29,9 +27,9 @@ namespace BuildersCapital.Controllers
                 IList<Guid> uploadedData = BuildersCapitalDataProvider.UploadDataModel(fileToUpload.InputStream);
 
                 string path = Server.MapPath("~/App_Data");
-                BuildersCapitalDataProvider.VerifyDocuments(uploadedData, path);
+                IList<Document> documents = BuildersCapitalDataProvider.VerifyDocuments(uploadedData, path);
 
-                return Json("Success", JsonRequestBehavior.AllowGet);
+                return Json(documents, JsonRequestBehavior.AllowGet);
             }
 
             catch (Exception ex)

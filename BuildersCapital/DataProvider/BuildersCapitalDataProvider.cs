@@ -54,36 +54,35 @@ namespace BuildersCapital.DataProvider
             }
         }
 
-        public void VerifyDocuments(IList<Guid> documentIds, string filePath)
+        public IList<Document> VerifyDocuments(IList<Guid> documentIds, string filePath)
         {
-            ZipProvider zipProvider = new ZipProvider();
+            IList<Document> documents = new List<Document>();
             IEnumerable<DocStatusView> foundViews = RetrieveDocStatusViews().Where(x => documentIds.Any(y => y == x.PropertyId));
             foreach (DocStatusView docStatusView in foundViews)
             {
                 if (!docStatusView.Agreement)
                 {
-
+                    documents.Add(CreateDocType(filePath, docStatusView.PropertyId, DocType.Agreement.ToString()));
                 }
                 if (!docStatusView.Appraisal)
                 {
-                    // Create Agreement Document
-                    ZipFile zip = zipProvider.ZipFile(filePath, String.Concat(docStatusView.PropertyId.ToString(), GetLast8Characters("Appraisal")));
-                    CreateDocument(docStatusView.PropertyId, "Appraisal", zip);
-
+                    documents.Add(CreateDocType(filePath, docStatusView.PropertyId, DocType.Appraisal.ToString()));
                 }
                 if (!docStatusView.SiteMap)
                 {
-                    // Create Agreement Document
+                    documents.Add(CreateDocType(filePath, docStatusView.PropertyId, DocType.SiteMap.ToString()));
                 }
                 if (!docStatusView.Resume)
                 {
-                    // Create Agreement Document
+                    documents.Add(CreateDocType(filePath, docStatusView.PropertyId, DocType.Resume.ToString()));
                 }
                 if (!docStatusView.Paperwork)
                 {
-                    // Create Agreement Document
+                    documents.Add(CreateDocType(filePath, docStatusView.PropertyId, DocType.Paperwork.ToString()));
                 }
             }
+
+            return documents;
         }
 
         public IList<Guid> UploadDataModel(Stream jsonData)
@@ -103,6 +102,12 @@ namespace BuildersCapital.DataProvider
         {
             int start = (Math.Max(0, name.Length - 8));
             return name.Substring(start, name.Length - start);
+        }
+
+        private Document CreateDocType(string filePath, Guid propertyId, string docType) {
+            ZipProvider zipProvider = new ZipProvider();
+            ZipFile zip = zipProvider.ZipFile(filePath, String.Concat(propertyId.ToString(), GetLast8Characters(docType)));
+            return CreateDocument(propertyId, docType, zip);
         }
     }
 }
