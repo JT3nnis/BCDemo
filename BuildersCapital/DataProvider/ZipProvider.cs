@@ -17,5 +17,11 @@ namespace BuildersCapital.DataProvider
 
             return zip;
         }
+
+        public void WriteByteArrayToFile(string path, byte[] bytes)
+        {
+            string outputPath = Path.Combine(path, "Output/test.zip");
+            File.WriteAllBytes(outputPath, bytes);
+        }
     }
 }

@@ -48,5 +48,37 @@ namespace BuildersCapital.Controllers
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
         }
+
+        [HttpPost]
+        public JsonResult Download(string id)
+        {
+            try
+            {
+                BuildersCapitalDataProvider BuildersCapitalDataProvider = new BuildersCapitalDataProvider();
+                Document foundDocument = BuildersCapitalDataProvider.RetrieveDocuments().ToList().Find(x => x.Id == new Guid(id));
+                ZipProvider ZipProvider = new ZipProvider();
+                string path = Server.MapPath("~/App_Data");
+                ZipProvider.WriteByteArrayToFile(path, foundDocument.DocBlob);
+
+                var result = new
+                {
+                    error = 0,
+                    data = Path.Combine(path, "Output/test.zip"),
+                    message = ""
+                };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+            catch (Exception ex)
+            {
+                var result = new
+                {
+                    error = 1,
+                    data = "",
+                    message = ex.Message
+                };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

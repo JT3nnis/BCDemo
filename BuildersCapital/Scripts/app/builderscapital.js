@@ -61,28 +61,25 @@ AppWeb.BuildersCapital = function () {
         },
 
         download = function (id) {
-            // search data source for id
-            const foundDocument = _docData.find(document => document.Id === id);
-            // retrieve blob
-            // download blob
-            //var xhr = new XMLHttpRequest();
-            //xhr.responseType = "arraybuffer";
+            var foundDocument = _docData.find(x => x.Id == id);
 
-            //xhr.onload = function () {
-            //    if (this.status === 200) {
-            //        var blob = new Blob(foundDocument.DocBlob, { type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document" });
-            //        var objectUrl = URL.createObjectURL(blob);
-            //        window.open(objectUrl);
-            //    }
-            //};
-            //xhr.send();
-
-            var blob = new Blob(foundDocument.DocBlob, { type: "application/zip" });
-            var link = document.createElement('a');
-            link.href = window.URL.createObjectURL(blob);
-            var fileName = foundDocument.Id;
-            link.download = fileName;
-            link.click();
+            var url = '/Document/Download?id=' + id;
+            $.ajax({
+                type: 'POST',
+                url: url,
+                contentType: false, // Not to set any content header if FormData() is used
+                processData: false, // Not to process data if FormData() is used
+                success: function (result) {
+                    if (result.error == 0) {
+                        window.open(result.data, '_self');
+                    }
+                    else {
+                    }
+                },
+                error: function (jqXHR, status, errorThrown) {
+                    alert('error');
+                }
+            });
 
             //TODO: DO DOWNLOAD
             //dataItem.DocBlob

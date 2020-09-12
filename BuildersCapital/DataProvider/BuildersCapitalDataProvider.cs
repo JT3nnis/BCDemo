@@ -31,13 +31,13 @@ namespace BuildersCapital.DataProvider
             return BuildersCapitalDBEntities.DocStatusViews.ToList();
         }
 
-        public Document CreateDocument(Guid propertyId, string docType, ZipFile zipFile)
+        public Document CreateDocument(Guid docId, Guid propertyId, string docType, ZipFile zipFile)
         {
             try
             {
                 Document newDocument = new Document()
                 {
-                    Id = Guid.NewGuid(),
+                    Id = docId,
                     PropertyId = propertyId,
                     DocType = docType,
                     FileName = "test.docx",
@@ -85,30 +85,31 @@ namespace BuildersCapital.DataProvider
             IEnumerable<DocStatusView> foundViews = RetrieveDocStatusViews().Where(x => documentIds.Any(y => y == x.PropertyId));
             foreach (DocStatusView docStatusView in foundViews)
             {
+                Guid newDocGuid = Guid.NewGuid();
                 if (!docStatusView.Agreement)
                 {
                     docStatusView.Agreement = true;
-                    documents.Add(CreateDocType(filePath, docStatusView.PropertyId, DocType.Agreement.ToString()));
+                    documents.Add(CreateDocType(newDocGuid, filePath, docStatusView.PropertyId, DocType.Agreement.ToString()));
                 }
                 if (!docStatusView.Appraisal)
                 {
                     //docStatusView.Appraisal = true;
-                    documents.Add(CreateDocType(filePath, docStatusView.PropertyId, DocType.Appraisal.ToString()));
+                    documents.Add(CreateDocType(newDocGuid, filePath, docStatusView.PropertyId, DocType.Appraisal.ToString()));
                 }
                 if (!docStatusView.SiteMap)
                 {
                     docStatusView.SiteMap = true;
-                    documents.Add(CreateDocType(filePath, docStatusView.PropertyId, DocType.SiteMap.ToString()));
+                    documents.Add(CreateDocType(newDocGuid, filePath, docStatusView.PropertyId, DocType.SiteMap.ToString()));
                 }
                 if (!docStatusView.Resume)
                 {
                     docStatusView.Resume = true;
-                    documents.Add(CreateDocType(filePath, docStatusView.PropertyId, DocType.Resume.ToString()));
+                    documents.Add(CreateDocType(newDocGuid, filePath, docStatusView.PropertyId, DocType.Resume.ToString()));
                 }
                 if (!docStatusView.Paperwork)
                 {
                     docStatusView.Paperwork = true;
-                    documents.Add(CreateDocType(filePath, docStatusView.PropertyId, DocType.Paperwork.ToString()));
+                    documents.Add(CreateDocType(newDocGuid, filePath, docStatusView.PropertyId, DocType.Paperwork.ToString()));
                 }
 
                 //UpdateDocStatusView(docStatusView);
@@ -142,10 +143,10 @@ namespace BuildersCapital.DataProvider
             return name.Substring(start, name.Length - start);
         }
 
-        private Document CreateDocType(string filePath, Guid propertyId, string docType) {
+        private Document CreateDocType(Guid docId, string filePath, Guid propertyId, string docType) {
             ZipProvider zipProvider = new ZipProvider();
-            ZipFile zip = zipProvider.ZipFile(filePath, String.Concat(propertyId.ToString(), GetLast8Characters(docType)));
-            return CreateDocument(propertyId, docType, zip);
+            ZipFile zip = zipProvider.ZipFile(filePath, String.Concat(docId, GetLast8Characters(docType)));
+            return CreateDocument(docId, propertyId, docType, zip);
         }
     }
 }
