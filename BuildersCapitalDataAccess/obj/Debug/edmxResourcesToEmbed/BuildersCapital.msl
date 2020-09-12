@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="BuildersCapitalDBModelStoreContainer" CdmEntityContainer="BuildersCapitalDBEntities">
+    <EntitySetMapping Name="DocStatusViews">
+      <EntityTypeMapping TypeName="BuildersCapitalDBModel.DocStatusView">
+        <MappingFragment StoreEntitySet="DocStatusView">
+          <ScalarProperty Name="PropertyId" ColumnName="PropertyId" />
+          <ScalarProperty Name="Agreement" ColumnName="Agreement" />
+          <ScalarProperty Name="Appraisal" ColumnName="Appraisal" />
+          <ScalarProperty Name="SiteMap" ColumnName="SiteMap" />
+          <ScalarProperty Name="Resume" ColumnName="Resume" />
+          <ScalarProperty Name="Paperwork" ColumnName="Paperwork" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Documents">
+      <EntityTypeMapping TypeName="BuildersCapitalDBModel.Document">
+        <MappingFragment StoreEntitySet="Documents">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="PropertyId" ColumnName="PropertyId" />
+          <ScalarProperty Name="DocType" ColumnName="DocType" />
+          <ScalarProperty Name="FileName" ColumnName="FileName" />
+          <ScalarProperty Name="DocBlob" ColumnName="DocBlob" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

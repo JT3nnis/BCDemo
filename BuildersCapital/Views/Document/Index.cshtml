@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.AppName = "BuildersCapital";
+    ViewBag.Title = "Documents";
+}
+
+<div>
+    @Html.AntiForgeryToken()
+    @Html.Partial("_FileUploadParstial")
+</div>
+
+@section styles
+{
+    @*<link rel="Stylesheet" href="@Href("~/content/app.css")" />*@
+}
+
+@section scripts
+{
+    @Scripts.Render("~/Scripts/app/builderscapital.js")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            AppWeb.File.initUpload();
+            AppWeb.BuildersCapital.init();
+        });
+    </script>
+
+}
