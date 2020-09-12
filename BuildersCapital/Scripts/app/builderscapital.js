@@ -61,28 +61,20 @@ AppWeb.BuildersCapital = function () {
         },
 
         download = function (id) {
-            var foundDocument = _docData.find(x => x.Id == id);
-
+            var foundDocument = _docData.find(x => x.Id === id);
             var url = '/Document/Download?id=' + id;
             $.ajax({
                 type: 'POST',
                 url: url,
                 contentType: false, // Not to set any content header if FormData() is used
                 processData: false, // Not to process data if FormData() is used
-                success: function (result) {
-                    if (result.error == 0) {
-                        window.open(result.data, '_self');
-                    }
-                    else {
-                    }
+                success: function () {
+                    alert(`${foundDocument.DocType} for ${id} was dowloaded.`);
                 },
                 error: function (jqXHR, status, errorThrown) {
                     alert('error');
                 }
             });
-
-            //TODO: DO DOWNLOAD
-            //dataItem.DocBlob
         },
 
         createGrid = function (data) {
@@ -104,7 +96,6 @@ AppWeb.BuildersCapital = function () {
             var cell1 = '<td class="doccell"><span>' + data.PropertyId + '</span></td>';
             var cell2 = '<td class="doccell"><span>' + data.DocType + '</span></td>';
             var cell3 = '<td class="doccell"><span>' + data.FileName + '</span></td>';
-            // var cell4 = `${data.Id}`
             var cell4 = '<td class="doccell"><button onclick="AppWeb.BuildersCapital.download(\'' + data.Id + '\')">Download</button></td>';
             return '<tr class="docrow">' + cell1 + cell2 + cell3 + cell4 + '</tr>';
         },

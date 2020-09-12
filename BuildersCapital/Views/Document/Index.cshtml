@@ -3,13 +3,13 @@
     ViewBag.Title = "Documents";
 }
 
-<div>
-    @Html.AntiForgeryToken()
-    @Html.Partial("_FileUploadParstial")
-    <div id="appGrid" class="app-grid">
-        <div id="appDataGrid" class="data-grid"></div>
+    <div>
+        @Html.AntiForgeryToken()
+        @Html.Partial("_FileUploadParstial")
+        <div id="appGrid" class="app-grid">
+            <div id="appDataGrid" class="data-grid"></div>
+        </div>
     </div>
-</div>
 
 @section styles
 {

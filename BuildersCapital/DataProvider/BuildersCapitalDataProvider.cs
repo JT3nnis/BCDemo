@@ -54,71 +54,45 @@ namespace BuildersCapital.DataProvider
             }
         }
 
-        public DocStatusView UpdateDocStatusView(DocStatusView docStatusView)
-        {
-            try
-            {
-                //DocStatusView newDocStatusView = new DocStatusView()
-                //{
-                //    PropertyId = docStatusView.PropertyId,
-                //    Agreement = docStatusView.Agreement,
-                //    Appraisal = docStatusView.Appraisal,
-                //    SiteMap = docStatusView.SiteMap,
-                //    Resume = docStatusView.Resume,
-                //    Paperwork = docStatusView.Paperwork
-                //};
-
-                //BuildersCapitalDBEntities.Entry(docStatusView).CurrentValues.SetValues(newDocStatusView);
-                BuildersCapitalDBEntities.DocStatusViews.Attach(docStatusView);
-                BuildersCapitalDBEntities.SaveChanges();
-                return docStatusView;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
         public IList<Document> VerifyDocuments(IList<Guid> documentIds, string filePath)
         {
             IList<Document> documents = new List<Document>();
             IEnumerable<DocStatusView> foundViews = RetrieveDocStatusViews().Where(x => documentIds.Any(y => y == x.PropertyId));
+            string inputFilePath = Path.Combine(filePath, "Blobs");
+            string outputFilePath = Path.Combine(filePath, "temp.zip");
             foreach (DocStatusView docStatusView in foundViews)
             {
-                Guid newDocGuid = Guid.NewGuid();
                 if (!docStatusView.Agreement)
                 {
                     docStatusView.Agreement = true;
-                    documents.Add(CreateDocType(newDocGuid, filePath, docStatusView.PropertyId, DocType.Agreement.ToString()));
+                    documents.Add(CreateDocType(inputFilePath, outputFilePath, docStatusView.PropertyId, DocType.Agreement.ToString()));
                 }
                 if (!docStatusView.Appraisal)
                 {
-                    //docStatusView.Appraisal = true;
-                    documents.Add(CreateDocType(newDocGuid, filePath, docStatusView.PropertyId, DocType.Appraisal.ToString()));
+                    docStatusView.Appraisal = true;
+                    documents.Add(CreateDocType(inputFilePath, outputFilePath, docStatusView.PropertyId, DocType.Appraisal.ToString()));
                 }
                 if (!docStatusView.SiteMap)
                 {
                     docStatusView.SiteMap = true;
-                    documents.Add(CreateDocType(newDocGuid, filePath, docStatusView.PropertyId, DocType.SiteMap.ToString()));
+                    documents.Add(CreateDocType(inputFilePath, outputFilePath, docStatusView.PropertyId, DocType.SiteMap.ToString()));
                 }
                 if (!docStatusView.Resume)
                 {
                     docStatusView.Resume = true;
-                    documents.Add(CreateDocType(newDocGuid, filePath, docStatusView.PropertyId, DocType.Resume.ToString()));
+                    documents.Add(CreateDocType(inputFilePath, outputFilePath, docStatusView.PropertyId, DocType.Resume.ToString()));
                 }
                 if (!docStatusView.Paperwork)
                 {
                     docStatusView.Paperwork = true;
-                    documents.Add(CreateDocType(newDocGuid, filePath, docStatusView.PropertyId, DocType.Paperwork.ToString()));
+                    documents.Add(CreateDocType(inputFilePath, outputFilePath, docStatusView.PropertyId, DocType.Paperwork.ToString()));
                 }
-
-                //UpdateDocStatusView(docStatusView);
             }
 
             // Dispose
-            if (File.Exists(Path.Combine(filePath, "test.zip")))
+            if (File.Exists(outputFilePath))
             {
-                File.Delete(Path.Combine(filePath, "test.zip"));
+                File.Delete(outputFilePath);
             }
 
             return documents;
@@ -143,10 +117,11 @@ namespace BuildersCapital.DataProvider
             return name.Substring(start, name.Length - start);
         }
 
-        private Document CreateDocType(Guid docId, string filePath, Guid propertyId, string docType) {
+        private Document CreateDocType(string inputFilePath, string outputFilePath, Guid propertyId, string docType) {
+            Guid newDocGuid = Guid.NewGuid();
             ZipProvider zipProvider = new ZipProvider();
-            ZipFile zip = zipProvider.ZipFile(filePath, String.Concat(docId, GetLast8Characters(docType)));
-            return CreateDocument(docId, propertyId, docType, zip);
+            ZipFile zip = zipProvider.ZipFile(inputFilePath, outputFilePath, String.Concat(newDocGuid, GetLast8Characters(docType)));
+            return CreateDocument(newDocGuid, propertyId, docType, zip);
         }
     }
 }
