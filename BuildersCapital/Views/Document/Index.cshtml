@@ -6,6 +6,9 @@
 <div>
     @Html.AntiForgeryToken()
     @Html.Partial("_FileUploadParstial")
+    <div id="appGrid" class="app-grid">
+        <div id="appDataGrid" class="data-grid"></div>
+    </div>
 </div>
 
 @section styles
@@ -15,6 +18,7 @@
 
 @section scripts
 {
+    @*@Scripts.Render("~/Scripts/app/docgrid.js")*@
     @Scripts.Render("~/Scripts/app/builderscapital.js")
 
     <script type="text/javascript">

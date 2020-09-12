@@ -28,14 +28,24 @@ namespace BuildersCapital.Controllers
 
                 string path = Server.MapPath("~/App_Data");
                 IList<Document> documents = BuildersCapitalDataProvider.VerifyDocuments(uploadedData, path);
-
-                return Json(documents, JsonRequestBehavior.AllowGet);
+                var result = new
+                {
+                    error = 0,
+                    data = documents,
+                    message = ""
+                };
+                return Json(result, JsonRequestBehavior.AllowGet);
             }
 
             catch (Exception ex)
             {
-                //EmailHelper.SendEmailNotice("PriceClaro: Errors found during price file upload", "Errors found during price upload:", ex.Message);
-                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+                var result = new
+                {
+                    error = 1,
+                    data = "",
+                    message = ex.Message
+                };
+                return Json(result, JsonRequestBehavior.AllowGet);
             }
         }
     }

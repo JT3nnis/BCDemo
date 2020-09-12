@@ -54,6 +54,31 @@ namespace BuildersCapital.DataProvider
             }
         }
 
+        public DocStatusView UpdateDocStatusView(DocStatusView docStatusView)
+        {
+            try
+            {
+                //DocStatusView newDocStatusView = new DocStatusView()
+                //{
+                //    PropertyId = docStatusView.PropertyId,
+                //    Agreement = docStatusView.Agreement,
+                //    Appraisal = docStatusView.Appraisal,
+                //    SiteMap = docStatusView.SiteMap,
+                //    Resume = docStatusView.Resume,
+                //    Paperwork = docStatusView.Paperwork
+                //};
+
+                //BuildersCapitalDBEntities.Entry(docStatusView).CurrentValues.SetValues(newDocStatusView);
+                BuildersCapitalDBEntities.DocStatusViews.Attach(docStatusView);
+                BuildersCapitalDBEntities.SaveChanges();
+                return docStatusView;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public IList<Document> VerifyDocuments(IList<Guid> documentIds, string filePath)
         {
             IList<Document> documents = new List<Document>();
@@ -62,24 +87,37 @@ namespace BuildersCapital.DataProvider
             {
                 if (!docStatusView.Agreement)
                 {
+                    docStatusView.Agreement = true;
                     documents.Add(CreateDocType(filePath, docStatusView.PropertyId, DocType.Agreement.ToString()));
                 }
                 if (!docStatusView.Appraisal)
                 {
+                    //docStatusView.Appraisal = true;
                     documents.Add(CreateDocType(filePath, docStatusView.PropertyId, DocType.Appraisal.ToString()));
                 }
                 if (!docStatusView.SiteMap)
                 {
+                    docStatusView.SiteMap = true;
                     documents.Add(CreateDocType(filePath, docStatusView.PropertyId, DocType.SiteMap.ToString()));
                 }
                 if (!docStatusView.Resume)
                 {
+                    docStatusView.Resume = true;
                     documents.Add(CreateDocType(filePath, docStatusView.PropertyId, DocType.Resume.ToString()));
                 }
                 if (!docStatusView.Paperwork)
                 {
+                    docStatusView.Paperwork = true;
                     documents.Add(CreateDocType(filePath, docStatusView.PropertyId, DocType.Paperwork.ToString()));
                 }
+
+                //UpdateDocStatusView(docStatusView);
+            }
+
+            // Dispose
+            if (File.Exists(Path.Combine(filePath, "test.zip")))
+            {
+                File.Delete(Path.Combine(filePath, "test.zip"));
             }
 
             return documents;

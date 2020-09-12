@@ -23,6 +23,7 @@ namespace BuildersCapital
                       "~/Scripts/bootstrap.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
+                      "~/Scripts/kendo2018.all.min.js",
                       "~/Scripts/app/appfile.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(

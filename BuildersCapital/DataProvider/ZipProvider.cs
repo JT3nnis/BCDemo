@@ -11,7 +11,7 @@ namespace BuildersCapital.DataProvider
             using (zip)
             {
                 zip.Password = password;
-                zip.AddDirectory(Path.Combine(path, "blobs"));
+                zip.AddDirectory(Path.Combine(path, "Blobs"));
                 zip.Save(Path.Combine(path, "test.zip"));
             }
 

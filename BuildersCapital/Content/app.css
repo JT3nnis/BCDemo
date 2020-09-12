@@ -1,4 +1,8 @@
 /* file upload */
+.doctype {
+    width: 100%;
+}
+
 .upload-container {
     height: 585px;
     margin-top: 30px;
