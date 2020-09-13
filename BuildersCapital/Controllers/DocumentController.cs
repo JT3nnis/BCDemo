@@ -60,8 +60,6 @@ namespace BuildersCapital.Controllers
                 string fileName = $"{id}.zip";
                 string folderName = "/Output/";
                 string serverPath = Path.Combine(Server.MapPath("~" + folderName), fileName);
-                //string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-                //string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads/" + id + ".zip");
                 ZipProvider.WriteByteArrayToFile(serverPath, foundDocument.DocBlob);
 
                 var result = new
