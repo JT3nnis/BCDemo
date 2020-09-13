@@ -74,6 +74,7 @@ AppWeb.BuildersCapital = function () {
                         var url = result.data;
                         // create a html5 link tag to download the file by browser
                         var link = document.createElement('a'); // Creating new link node.
+                        link.type = "application/zip";
                         link.href = url;
                         if (url !== undefined) {
                             //Set HTML5 download attribute. This will prevent file from opening if supported.
