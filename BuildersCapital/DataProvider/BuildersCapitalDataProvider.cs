@@ -1,11 +1,11 @@
-﻿using BuildersCapitalDataAccess;
+﻿using BuildersCapital.Models;
+using BuildersCapitalDataAccess;
+using Ionic.Zip;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using BuildersCapital.Models;
-using Newtonsoft.Json;
-using Ionic.Zip;
 
 namespace BuildersCapital.DataProvider
 {
@@ -69,7 +69,7 @@ namespace BuildersCapital.DataProvider
                 }
                 if (!docStatusView.Appraisal)
                 {
-                    //docStatusView.Appraisal = true;
+                    docStatusView.Appraisal = true;
                     documents.Add(CreateDocType(inputFilePath, outputFilePath, docStatusView.PropertyId, DocType.Appraisal.ToString()));
                 }
                 if (!docStatusView.SiteMap)
