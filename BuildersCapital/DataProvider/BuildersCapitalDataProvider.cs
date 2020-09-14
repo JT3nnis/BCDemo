@@ -19,18 +19,28 @@ namespace BuildersCapital.DataProvider
         }
 
         /// <summary>
-        /// Finds all documents in a document database.
+        /// Finds all documents in a Builders Capital database.
         /// </summary>
         public IEnumerable<Document> RetrieveDocuments()
         {
             return BuildersCapitalDBEntities.Documents.ToList();
         }
 
+        /// <summary>
+        /// Finds all status views of documents in a Builders Capital database.
+        /// </summary>
         public IEnumerable<DocStatusView> RetrieveDocStatusViews()
         {
             return BuildersCapitalDBEntities.DocStatusViews.ToList();
         }
 
+        /// <summary>
+        /// Creates a document in the Builders Capital database.
+        /// </summary>
+        /// <param name="docId">Guid of the document created.</param>
+        /// <param name="propertyId">Guid of the property ID for the document.</param>
+        /// <param name="docType">Type of document being created.</param>
+        /// <param name="zipFile">Zipfile for the document blob.</param>
         public Document CreateDocument(Guid docId, Guid propertyId, string docType, ZipFile zipFile)
         {
             try
@@ -54,6 +64,11 @@ namespace BuildersCapital.DataProvider
             }
         }
 
+        /// <summary>
+        /// Verifies the status of the property and creates documents for missing document types.
+        /// </summary>
+        /// <param name="documentIds">Document ids of the properties being verified.</param>
+        /// <param name="filePath">File path for the server's App Data.</param>
         public IList<Document> VerifyDocuments(IList<Guid> documentIds, string filePath)
         {
             IList<Document> documents = new List<Document>();
@@ -98,6 +113,10 @@ namespace BuildersCapital.DataProvider
             return documents;
         }
 
+        /// <summary>
+        /// Uploads the inputed json and converts its data into a list of guids.
+        /// </summary>
+        /// <param name="jsonData">Stream of the uploaded file.</param>
         public IList<Guid> UploadDataModel(Stream jsonData)
         {
             IList<Guid> uploadData = new List<Guid>();
@@ -111,12 +130,23 @@ namespace BuildersCapital.DataProvider
             return uploadData;
         }
 
+        /// <summary>
+        /// Gets the last 8 characters of a string, if under 8 characters retrieves the entire string.
+        /// </summary>
+        /// <param name="name">String being parsed.</param>
         private string GetLast8Characters(string name)
         {
             int start = (Math.Max(0, name.Length - 8));
             return name.Substring(start, name.Length - start);
         }
 
+        /// <summary>
+        /// Creates a document for the corresponding document type.
+        /// </summary>
+        /// <param name="inputFilePath">Path of the folder being zipped.</param>
+        /// <param name="outputFilePath">Path to the zip file being outputted.</param>
+        /// <param name="propertyId">ID of the property.</param>
+        /// <param name="docType">The document type.</param>
         private Document CreateDocType(string inputFilePath, string outputFilePath, Guid propertyId, string docType) {
             Guid newDocGuid = Guid.NewGuid();
             ZipProvider zipProvider = new ZipProvider();

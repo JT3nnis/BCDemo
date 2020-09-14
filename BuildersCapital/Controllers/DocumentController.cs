@@ -21,6 +21,8 @@ namespace BuildersCapital.Controllers
         /// <summary>
         /// Uploads a json file containing with the id of the documents and checks each of their doc type status.
         /// </summary>
+        /// <param name="form">Form of the uploaded file model.</param>
+        /// <param name="fileToUpload">File being uploaded from the client.</param>
         [HttpPost]
         public JsonResult Upload(UploadFileModel form, HttpPostedFileBase fileToUpload)
         {
@@ -52,6 +54,10 @@ namespace BuildersCapital.Controllers
             }
         }
 
+        /// <summary>
+        /// Downloads the document's blob.
+        /// </summary>
+        /// <param name="id">Id of the document.</param>
         [HttpPost]
         public JsonResult Download(string id)
         {
@@ -86,6 +92,10 @@ namespace BuildersCapital.Controllers
             }
         }
 
+        /// <summary>
+        /// Downloads the document's blob.
+        /// </summary>
+        /// <param name="id">Id of the document.</param>
         [HttpPost]
         public async Task<JsonResult> DownloadAsync(string id)
         {
