@@ -18,6 +18,9 @@ namespace BuildersCapital.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Uploads a json file containing with the id of the documents and checks each of their doc type status.
+        /// </summary>
         [HttpPost]
         public JsonResult Upload(UploadFileModel form, HttpPostedFileBase fileToUpload)
         {
@@ -91,8 +94,6 @@ namespace BuildersCapital.Controllers
                 BuildersCapitalDataProvider BuildersCapitalDataProvider = new BuildersCapitalDataProvider();
                 Document foundDocument = BuildersCapitalDataProvider.RetrieveDocuments().ToList().Find(x => x.Id == new Guid(id));
                 ZipProvider ZipProvider = new ZipProvider();
-                //string path = Server.MapPath("~/App_Data");
-                //string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
                 string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads/" + id + ".zip");
                 await ZipProvider.DownloadZipFile(path, foundDocument.DocBlob);
 

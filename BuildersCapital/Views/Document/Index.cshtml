@@ -3,22 +3,17 @@
     ViewBag.Title = "Documents";
 }
 
-    <div>
-        @Html.AntiForgeryToken()
-        @Html.Partial("_FileUploadParstial")
-        <div id="appGrid" class="app-grid">
-            <div id="appDataGrid" class="data-grid"></div>
-        </div>
+<div>
+    @Html.AntiForgeryToken()
+    @Html.Partial("_FileUploadParstial")
+    <div id="appGrid" class="app-grid">
+        <div id="appDataGrid" class="data-grid"></div>
     </div>
-
-@section styles
-{
-    @*<link rel="Stylesheet" href="@Href("~/content/app.css")" />*@
-}
+</div>
 
 @section scripts
 {
-    @*@Scripts.Render("~/Scripts/app/docgrid.js")*@
+    @Scripts.Render("~/Scripts/app/appfile.js")
     @Scripts.Render("~/Scripts/app/builderscapital.js")
 
     <script type="text/javascript">

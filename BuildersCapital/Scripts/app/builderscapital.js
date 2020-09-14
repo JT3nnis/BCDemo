@@ -3,8 +3,6 @@ var AppWeb = AppWeb || {};
 
 AppWeb.BuildersCapital = function () {
     var $_inlineUpload = $('#doUpload'),
-        $_upload = $('#uploadGo'),
-        $_cancel = $('#uploadCancel'),
         $_grid = $('#appDataGrid'),
         _docData = [],
         
@@ -18,16 +16,13 @@ AppWeb.BuildersCapital = function () {
             $_inlineUpload.unbind('click').on('click', function (e) {
                 doUpload();
             });
-
-            $_upload.addClass('hide'); // use inline style button
-            $_cancel.addClass('hide'); // no cancel button
         },
 
         doUpload = function () {
             // ensure a file is selected
             var pathname = $('#UploadFile').val();
             if (pathname == '') {
-                AppWeb.ActionAlert.fail('Please select an Excel file to import.');
+                alert('Please select an Excel file to import.');
                 return;
             }
 
@@ -61,8 +56,6 @@ AppWeb.BuildersCapital = function () {
         },
 
         download = function (id) {
-            var foundDocument = _docData.find(x => x.Id == id);
-
             var url = '/Document/Download?id=' + id;
             $.ajax({
                 type: 'POST',
