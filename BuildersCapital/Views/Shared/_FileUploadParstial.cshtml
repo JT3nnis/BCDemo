@@ -1,0 +1,18 @@
+@model BuildersCapital.Models.UploadFileModel
+
+<!-- file upload -->
+<div class="upload-selection clearfix">
+    <div class="col-xs-5 no-left-padding">
+        @Html.LabelFor(m => m.UploadFile, htmlAttributes: new { @class = "control-label upload-file-label" }) <span class="blue bold">(json format only)</span>
+        @Html.TextBoxFor(m => m.UploadFile, new { @class = "form-control", @readonly = "readonly" })
+        @Html.ValidationMessageFor(m => m.UploadFile, "", new { @class = "text-danger" })
+        <div id="importFileMessage"></div>
+    </div>
+    <div class="col-xs-5">
+        <img id="attachFile" class="upload-action-icon" data-field="@Html.NameFor(m => m.UploadFile)" data-upload="fileToUpload" src="/Content/images/icon/attach.png" />
+        <img id="removeFile" class="upload-action-icon" data-field="@Html.NameFor(m => m.UploadFile)" src="/Content/images/icon/eraser.png" />
+        <!-- for inline upload style -->
+        <input id="doUpload" type="button" value="Upload" class="btn btn-default btn-success upload-action-button hide" />
+        <div class="hide"><input id="fileToUpload" name="fileToUpload" type="file" accept="application/JSON" /></div>
+    </div>
+</div>

@@ -1,0 +1,54 @@
+/* file upload */
+.doctype {
+    width: 100%;
+}
+
+.upload-container {
+    height: 585px;
+    margin-top: 30px;
+}
+
+.upload-file-label {
+    padding-bottom: 5px;
+    padding-left: 3px;
+}
+
+.upload-action-icon {
+    height: 28px;
+    width: 28px;
+    margin-right: 10px;
+    margin-top: 36px;
+    cursor: pointer;
+}
+
+.upload-action-button {
+    margin-left: 20px;
+    margin-top: 28px;
+    cursor: pointer;
+}
+
+.upload-section {
+}
+
+.upload-action {
+    margin-top: 15px;
+}
+
+.upload-action > div {
+    margin-left: 15px;
+}
+
+.input-helper {
+    position: relative;
+    top: 15px;
+    left: 20px;
+    font-size: 12px;
+}
+
+.no-left-padding {
+    padding-left: 0px;
+}
+
+.no-right-padding {
+    padding-right: 0px;
+}
